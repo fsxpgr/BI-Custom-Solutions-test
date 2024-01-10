@@ -17,10 +17,12 @@ const LineChart = ({data, encode}:LineChartProps) => {
     const chart = new Chart({ container: chartContainer.current })
       .options({
         type: 'line',
-        width:500, height: 400
+        width:500, height: 400,
       })
+      .transform([{ type: 'sortX', by: 'x' }])
       .data(data)
-      .encode(encode);
+      .encode(encode)
+      .encode('color', 'rgb(55,154,140)')
 
     chart.render();
 
