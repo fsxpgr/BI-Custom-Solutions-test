@@ -8,6 +8,11 @@ export interface NewCasesByDate {
   newCasesByPublishDate: number
 }
 
+interface AgeDemographicsResponse {
+  VaccineRegisterPopulationByVaccinationDate:number
+  age: string
+}
+
 const baseUrl = 'https://api.coronavirus.data.gov.uk/v1/data'
 const baseFilter = 'filters=areaType=nation;areaName=england'
 
@@ -18,15 +23,14 @@ export const fetchNewCases = async ():Promise<NewCasesByDate[]> => {
     ?.filter(it=>!!it.newCasesByPublishDate) ||[]
 }
 
-
 export const fetchVaccinationAgeDemographics = async ():Promise<VaccinationByAge[]> => {
-  const res = await fetch(`${baseUrl}?${baseFilter}&structure={"date":"date", "vaccinated":"vaccinationsAgeDemographics"}`);
+  const res = await fetch(`${baseUrl}?${baseFilter}&structure={"date":"date", "vaccinationsAgeDemographics":"vaccinationsAgeDemographics"}`);
   const data = await res.json();
 
-  return (data.data[0].vaccinationsAgeDemographics as VaccinationByAge[])
+  return (data.data[0].vaccinationsAgeDemographics as AgeDemographicsResponse[])
     ?.filter(it=>!it?.age?.includes("+"))
     ?.map((it)=>({
         age:it.age,
-        vaccinated: it.vaccinated as number
-    })) ||[]
+        vaccinated: it.VaccineRegisterPopulationByVaccinationDate
+    })) || []
 }
