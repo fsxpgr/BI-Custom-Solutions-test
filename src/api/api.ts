@@ -15,7 +15,7 @@ export const fetchNewCases = async ():Promise<NewCasesByDate[]> => {
   const res = await fetch(`${baseUrl}?${baseFilter}&structure={"date":"date", "newCasesByPublishDate":"newCasesByPublishDate"}`);
   const data = await res.json();
   return (data.data as NewCasesByDate[])
-    .filter(it=>!!it.newCasesByPublishDate)
+    ?.filter(it=>!!it.newCasesByPublishDate) ||[]
 }
 
 
@@ -24,9 +24,9 @@ export const fetchVaccinationAgeDemographics = async ():Promise<VaccinationByAge
   const data = await res.json();
 
   return (data.data[0].vaccinationsAgeDemographics as VaccinationByAge[])
-    .filter(it=>!it?.age?.includes("+"))
-    .map((it)=>({
+    ?.filter(it=>!it?.age?.includes("+"))
+    ?.map((it)=>({
         age:it.age,
         vaccinated: it.vaccinated as number
-    }))
+    })) ||[]
 }
