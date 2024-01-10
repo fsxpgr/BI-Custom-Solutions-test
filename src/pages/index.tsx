@@ -19,6 +19,7 @@ export default function Home({newCasesByDate, vaccinationAgeDemographics}:HomePr
         <Content style={{  margin: "0 10vw" }}>
           <ChartsContent newCasesByDate={newCasesByDate} vaccinationAgeDemographics={vaccinationAgeDemographics}/>
         </Content>
+
         <Footer style={{background:'white', marginTop:10,textAlign:'end'}}>by Oleksii Boiko, <a href={'mailto:olexiy.bojko@gmail.com'}>olexiy.bojko@gmail.com</a></Footer>
       </Layout>
   )
