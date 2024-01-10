@@ -14,18 +14,19 @@ const baseFilter = 'filters=areaType=nation;areaName=england'
 export const fetchNewCases = async ():Promise<NewCasesByDate[]> => {
   const res = await fetch(`${baseUrl}?${baseFilter}&structure={"date":"date", "newCasesByPublishDate":"newCasesByPublishDate"}`);
   const data = await res.json();
-  return data.data.filter(it=>!!it.newCasesByPublishDate)
+  return (data.data as NewCasesByDate[])
+    .filter(it=>!!it.newCasesByPublishDate)
 }
 
 
 export const fetchVaccinationAgeDemographics = async ():Promise<VaccinationByAge[]> => {
-  const res = await fetch(`${baseUrl}?${baseFilter}&structure={"date":"date", "vaccinationsAgeDemographics":"vaccinationsAgeDemographics"}`);
+  const res = await fetch(`${baseUrl}?${baseFilter}&structure={"date":"date", "vaccinated":"vaccinationsAgeDemographics"}`);
   const data = await res.json();
 
-  return data.data[0].vaccinationsAgeDemographics
-    .filter(it=>!it.age.includes("+"))
+  return (data.data[0].vaccinationsAgeDemographics as VaccinationByAge[])
+    .filter(it=>!it?.age?.includes("+"))
     .map((it)=>({
         age:it.age,
-        vaccinated:it.VaccineRegisterPopulationByVaccinationDate
+        vaccinated: it.vaccinated as number
     }))
 }

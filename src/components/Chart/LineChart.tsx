@@ -1,7 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import {Chart} from '@antv/g2';
 
-const LineChart = ({data, encode}) => {
+interface LineChartProps {
+  data: Record<any, any>[]
+  encode: Record<any, any>
+}
+const LineChart = ({data, encode}:LineChartProps) => {
   const chartContainer = useRef(null);
 
   useEffect(() => {
@@ -13,6 +17,7 @@ const LineChart = ({data, encode}) => {
     const chart = new Chart({ container: chartContainer.current })
       .options({
         type: 'line',
+        width:500, height: 400
       })
       .data(data)
       .encode(encode);
