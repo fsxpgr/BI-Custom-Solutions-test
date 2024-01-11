@@ -26,7 +26,7 @@ export default function Home({newCasesByDate, vaccinationAgeDemographics}:HomePr
 }
 
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const [newCasesByDate, vaccinationAgeDemographics] =
     await Promise.all([fetchNewCases(), fetchVaccinationAgeDemographics()])
 
